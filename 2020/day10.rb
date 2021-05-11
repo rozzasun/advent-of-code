@@ -23,7 +23,7 @@ def part1(nums)
 end
 
 def part2(nums)
-  (0..2).sum { |i| nums[i] < 4 ? combos(i, nums) : 0 }
+  combos(0, [0, *nums])
 end
 
 nums = File.open('inputs/day10.txt').map { |line| line.chomp.to_i }.sort
