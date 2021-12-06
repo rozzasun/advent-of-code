@@ -1,9 +1,7 @@
 def part1(lines)
   grid = Hash.new { |h, k| h[k] = 0 }
   lines.each do |to, from|
-    if to[0] == from[0] || to[1] == from[1]
-      mark_path(to, from, grid)
-    end
+    (to[0] == from[0] || to[1] == from[1]) && mark_path(to, from, grid)
   end
   grid.values.count { |val| val >= 2 }
 end
@@ -14,16 +12,17 @@ def part2(lines)
   grid.values.count { |val| val >= 2 }
 end
 
-def mark_path(to, from, grid)
-  x_dir = (diff = to[0] - from[0]) == 0 ? 0 : diff/diff.abs
-  y_dir = (diff = to[1] - from[1]) == 0 ? 0 : diff/diff.abs
+def mark_path((x2, y2), (x1, y1), grid)
+  x_dir, y_dir = x2 <=> x1, y2 <=> y1
 
-  steps = [(from[0] - to[0]).abs, (from[1] - to[1]).abs].max + 1
-  steps.times do |i|
-    x = from[0] + i * x_dir
-    y = from[1] + i * y_dir
+  i = 0
+  while true do
+    x = x1 + i * x_dir
+    y = y1 + i * y_dir
 
     grid[[x, y]] += 1
+    break if [x, y] == [x2, y2]
+    i += 1
   end
 end
 
